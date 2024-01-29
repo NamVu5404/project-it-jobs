@@ -35,7 +35,7 @@ function SearchForm() {
   return (
     <>
       <Form onFinish={handleSubmit}>
-        <Row gutter={[20]}>
+        <Row gutter={[10]}>
           <Col>
             <Form.Item name="citySearch">
               <Select
@@ -66,7 +66,7 @@ function SearchForm() {
             </Button>
           </Col>
 
-          <Col xs={13}>
+          <Col xs={14}>
             <Form.Item name="tagsSearch">
               <Select
                 mode="multiple"

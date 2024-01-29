@@ -2,6 +2,7 @@ import DefaultLayout from "../Layout/DefaultLayout";
 import LayoutAdmin from "../Layout/LayoutAdmin";
 import Search from "../components/Search";
 import CVManage from "../pages/CVManage";
+import CvDetailManage from "../pages/CVManage/CvDetailManage";
 import Company from "../pages/Company";
 import CompanyAll from "../pages/Company/CompanyAll";
 import CompanyDetails from "../pages/Company/CompanyDetails";
@@ -84,18 +85,26 @@ export const routes = [
         element: <JobManage />,
       },
       {
+        path: "job-manage",
+        children: [
+          {
+            path: ":id",
+            element: <JobDetailManage />,
+          },
+        ],
+      },
+      {
         path: "cv-manage",
         element: <CVManage />,
       },
       {
-        path: "job-detail",
-        element: <JobDetailManage />,
+        path: "cv-manage",
         children: [
           {
             path: ":id",
-            element: <JobDetailManage />
-          }
-        ]
+            element: <CvDetailManage />,
+          },
+        ],
       },
     ],
   },

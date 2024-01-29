@@ -1,8 +1,13 @@
 .job-detail {
   margin-bottom: 40px;
 
+  &__name {
+    margin: 0;
+  }
+
   &__name,
   &__title {
+    margin-top: 20px;
     color: #000;
   }
 

@@ -4,7 +4,9 @@ import "./Company.scss";
 function Company() {
   return (
     <>
-      <Outlet />
+      <div className="bg">
+        <Outlet />
+      </div>
     </>
   );
 }

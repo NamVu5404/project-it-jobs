@@ -10,7 +10,8 @@ function SearchItem() {
   const [data, setData] = useState([]);
   const citySearch = searchParams.get("city") || "";
   const keywordSearch = searchParams.get("keyword") || "";
-  const tagsSearch = (searchParams.get("tags") && searchParams.get("tags").split(",")) || "";
+  const tagsSearch =
+    (searchParams.get("tags") && searchParams.get("tags").split(",")) || "";
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -37,19 +38,21 @@ function SearchItem() {
 
   return (
     <>
-      <GoBack step={-1} name="Trở lại" /> 
+      <div className="bg">
+        <GoBack step={-1} name="Trở lại" />
 
-      <h3 style={{ color: "#000" }}>
-        <span>Kết quả tìm kiếm: </span>
-        {citySearch && <Tag>{citySearch}</Tag>}
-        {keywordSearch && <Tag>{keywordSearch}</Tag>}
-        {tagsSearch &&
-          tagsSearch.map((item, index) => <Tag key={index}>{item}</Tag>)}
-      </h3>
+        <h3 style={{ color: "#000" }}>
+          <span>Kết quả tìm kiếm: </span>
+          {citySearch && <Tag>{citySearch}</Tag>}
+          {keywordSearch && <Tag>{keywordSearch}</Tag>}
+          {tagsSearch &&
+            tagsSearch.map((item, index) => <Tag key={index}>{item}</Tag>)}
+        </h3>
 
-      <Row gutter={[15, 15]}>
-        <SearchResult data={data} />
-      </Row>
+        <Row gutter={[15, 15]}>
+          <SearchResult data={data} />
+        </Row>
+      </div>
     </>
   );
 }

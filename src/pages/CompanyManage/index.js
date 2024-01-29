@@ -1,14 +1,25 @@
 import { Button, Card, Col, Form, Input, Row, message } from "antd";
 import "./CompanyManage.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { editInfoCompany } from "../../services/companyService";
+import { getCookie } from "../../helpers/cookies";
+import { getListCompany } from "../../services/searchService";
 
 function CompanyManage() {
-  const company = JSON.parse(sessionStorage.getItem("company"));
+  const companyId = +getCookie("companyId");
   const [disabled, setDisabled] = useState(true);
   const [form] = useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  const [company, setCompany] = useState();
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const responseCompany = await getListCompany();
+      setCompany(responseCompany[companyId - 1]);
+    };
+    fetchApi();
+  }, [companyId]);
 
   const success = () => {
     messageApi.open({
@@ -16,6 +27,7 @@ function CompanyManage() {
       content: "Cập nhật thành công!",
     });
   };
+
   const error = () => {
     messageApi.open({
       type: "error",
@@ -62,7 +74,7 @@ function CompanyManage() {
           )}
         </div>
 
-        <Form
+        {company && <Form
           name="info-company"
           form={form}
           layout="vertical"
@@ -138,7 +150,7 @@ function CompanyManage() {
               </>
             )}
           </Row>
-        </Form>
+        </Form>}
       </Card>
     </>
   );

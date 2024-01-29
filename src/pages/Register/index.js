@@ -1,9 +1,5 @@
 import { Button, Card, Col, Form, Input, message } from "antd";
-import {
-  checkEmail,
-  checkPhone,
-  createAccount,
-} from "../../services/loginService";
+import { checkExits, createAccount } from "../../services/loginService";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -24,8 +20,8 @@ function Login() {
   };
 
   const onFinish = async (values) => {
-    const checkemail = await checkEmail(values.email);
-    const checkphone = await checkPhone(values.phone);
+    const checkemail = await checkExits("email", values.email);
+    const checkphone = await checkExits("phone", values.phone);
 
     if (checkemail.length) {
       error("Email đã tồn tại!");

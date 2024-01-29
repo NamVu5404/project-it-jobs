@@ -1,13 +1,14 @@
-import { Button, Col, Form, Modal, Row, Tooltip, message } from "antd";
-import { EditOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import { useForm } from "antd/es/form/Form";
-import { editInfoJob } from "../../services/companyService";
-import { dateNow } from "../../helpers/dateNow";
+import { Button, Col, Form, Modal, Row, message } from "antd";
 import JobForm from "./JobForm";
+import { useForm } from "antd/es/form/Form";
+import { useState } from "react";
+import { createJob } from "../../services/companyService";
+import { getCookie } from "../../helpers/cookies";
+import { dateNow } from "../../helpers/dateNow";
 
-function EditJobManage(props) {
-  const { record, onReload } = props;
+function CreateJobManage(props) {
+  const { onReload } = props;
+  const companyId = +getCookie("companyId");
   const [form] = useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
@@ -15,29 +16,32 @@ function EditJobManage(props) {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "Cập nhập thành công!",
+      content: "Tạo mới thành công!",
     });
   };
   const error = () => {
     messageApi.open({
       type: "error",
-      content: "Cập nhập không thành công!",
+      content: "Tạo mới không thành công!",
     });
   };
-
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleSubmit = async (values) => {
-    const response = await editInfoJob(record.id, {
+    const response = await createJob({
       ...values,
-      updateAt: dateNow,
+      idCompany: companyId,
+      description: values.description || "",
+      createAt: dateNow,
+      status: values.status === false ? false : true,
     });
     if (response) {
-      setIsModalOpen(false);
       success();
+      setIsModalOpen(false);
       onReload();
+      form.resetFields();
     } else {
       error();
     }
@@ -51,36 +55,30 @@ function EditJobManage(props) {
   return (
     <>
       {contextHolder}
-
-      <Tooltip title="Chỉnh sửa">
-        <Button
-          type="primary"
-          ghost
-          icon={<EditOutlined />}
-          onClick={showModal}
-        />
-      </Tooltip>
+      <Button
+        type="primary"
+        ghost
+        style={{ marginBottom: "30px" }}
+        onClick={showModal}
+      >
+        + Thêm mới
+      </Button>
 
       <Modal
-        title="Cập nhật thông tin job"
+        title="Tạo job mới"
         open={isModalOpen}
         onCancel={handleCancel}
         style={{ minWidth: "50%" }}
         footer={null}
       >
-        <Form
-          layout="vertical"
-          form={form}
-          onFinish={handleSubmit}
-          initialValues={record}
-        >
+        <Form layout="vertical" form={form} onFinish={handleSubmit}>
           <Row gutter={[15]}>
             <JobForm />
 
             <Col xs={24}>
               <div style={{ display: "flex", flexDirection: "row-reverse" }}>
                 <Button type="primary" htmlType="submit">
-                  Cập nhật
+                  Tạo mới
                 </Button>
               </div>
             </Col>
@@ -91,4 +89,4 @@ function EditJobManage(props) {
   );
 }
 
-export default EditJobManage;
+export default CreateJobManage;

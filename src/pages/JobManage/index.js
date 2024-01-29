@@ -1,14 +1,39 @@
 import { Button, Space, Table, Tag, Tooltip } from "antd";
-import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { EyeOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import EditJobManage from "./EditJobManage";
+import { getCookie } from "../../helpers/cookies";
+import { useEffect, useState } from "react";
+import { getListJob } from "../../services/searchService";
+import DeleteJobManage from "./DeleteJobManage";
+import CreateJobManage from "./CreateJobManage";
 
 function JobManage() {
-  const jobs = JSON.parse(sessionStorage.getItem("jobs"));
-  const data = jobs.map((item) => ({
-    ...item,
-    key: item.id,
-  }));
+  const navigate = useNavigate();
+  const companyId = +getCookie("companyId");
+  const [jobs, setJobs] = useState();
+
+  const fetchApi = async () => {
+    const responseJob = await getListJob();
+    setJobs(
+      responseJob.filter((item) => item.idCompany === companyId).reverse()
+    );
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
+  const handleReload = () => {
+    fetchApi();
+  };
+
+  const data =
+    jobs &&
+    jobs.map((item) => ({
+      ...item,
+      key: item.id,
+    }));
 
   const columns = [
     {
@@ -18,8 +43,13 @@ function JobManage() {
     },
     {
       title: "Tags",
-      dataIndex: "tags",
       key: "tags",
+      render: (_, record) =>
+        record.tags.map((item, index) => (
+          <Tag color="blue" key={index}>
+            {item}
+          </Tag>
+        )),
     },
     {
       title: "Mức lương($)",
@@ -32,8 +62,16 @@ function JobManage() {
       key: "time",
       render: (_, { createAt, updateAt }) => (
         <>
-          <div>Ngày tạo: {createAt}</div>
-          <div>Cập nhật: {updateAt}</div>
+          <div>
+            Ngày tạo: <br />
+            {createAt}
+          </div>
+          {updateAt && (
+            <div>
+              Cập nhật: <br />
+              {updateAt}
+            </div>
+          )}
         </>
       ),
     },
@@ -54,16 +92,17 @@ function JobManage() {
       render: (_, record) => (
         <Space>
           <Tooltip title="Xem chi tiết">
-            <Link to="/job-detail" record={record}>
-              <Button icon={<EyeOutlined />} />
-            </Link>
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() =>
+                navigate(`/job-manage/${record.id}`, {
+                  state: { record },
+                })
+              }
+            />
           </Tooltip>
-          <Tooltip title="Chỉnh sửa">
-            <EditJobManage record={record} />
-          </Tooltip>
-          <Tooltip title="Xóa">
-            <Button danger icon={<DeleteOutlined />} />
-          </Tooltip>
+          <EditJobManage record={record} onReload={handleReload} />
+          <DeleteJobManage record={record} onReload={handleReload} />
         </Space>
       ),
     },
@@ -72,10 +111,18 @@ function JobManage() {
   return (
     <>
       <h2 style={{ color: "#000" }}>Danh sách việc làm</h2>
-      <Button type="primary" ghost style={{ marginBottom: "30px" }}>
-        + Thêm mới
-      </Button>
-      <Table columns={columns} dataSource={data} />
+      <CreateJobManage onReload={handleReload} />
+      {data && (
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={{
+            defaultPageSize: 5,
+            showSizeChanger: true,
+            pageSizeOptions: ["5", "10", "15"],
+          }}
+        />
+      )}
     </>
   );
 }

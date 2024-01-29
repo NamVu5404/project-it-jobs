@@ -14,7 +14,7 @@ function CompanyDetails() {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await getListJob();
-      setJob(response.filter((item) => item.idCompany === company.id));
+      setJob(response.filter((item) => item.idCompany === company.id).reverse());
     };
     fetchApi();
   }, [company.id]);
@@ -67,7 +67,7 @@ function CompanyDetails() {
           <>
             <Row gutter={[15, 15]}>
               {job.map((item) => (
-                <CardInfoJob item={item} company={[company]} key={item.id} />
+                item.status && <CardInfoJob item={item} company={[company]} key={item.id} />
               ))}
             </Row>
           </>

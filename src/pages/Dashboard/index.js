@@ -28,23 +28,6 @@ function Dashboard() {
 
       const responseCompany = await getListCompany();
       setCompany(responseCompany[companyId - 1]);
-
-      sessionStorage.setItem(
-        "company",
-        JSON.stringify(responseCompany[companyId - 1])
-      );
-      sessionStorage.setItem(
-        "cv",
-        JSON.stringify(
-          responseCv.filter((item) => item.idCompany === companyId)
-        )
-      );
-      sessionStorage.setItem(
-        "jobs",
-        JSON.stringify(
-          responseJob.filter((item) => item.idCompany === companyId)
-        )
-      );
     };
     fetchApi();
   }, [companyId]);

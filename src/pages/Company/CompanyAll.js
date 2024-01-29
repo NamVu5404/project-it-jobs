@@ -9,7 +9,7 @@ function CompanyAll() {
 
   return (
     <>
-      <h2 style={{ color: "#000" }}>Danh sách các công ty</h2>
+      <h2 style={{ color: "#000", marginTop: "0" }}>Danh sách các công ty</h2>
 
       <Row gutter={[15, 15]}>
         {company.map((item) => (

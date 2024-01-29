@@ -1,6 +1,6 @@
 .header {
   background-color: var(--color-two);
-  padding: 20px 250px;
+  padding: 20px 230px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -18,7 +18,7 @@
 }
 
 .content {
-  padding: 80px 250px;
+  padding: 80px 230px;
   background-color: var(--color-one);
   min-height: 90vh;
 
@@ -26,6 +26,7 @@
     font-weight: 600;
     color: #000;
     margin-bottom: 30px;
+    margin-top: 0;
   }
 }
 

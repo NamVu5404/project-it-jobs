@@ -29,7 +29,6 @@ function SearchResult(props) {
           <h3 style={{ color: "#000" }}>Không có kết quả tìm kiếm phù hợp!</h3>
         </Col>
       )}
-
       <ScrollToTop />
     </>
   );

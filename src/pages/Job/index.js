@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 function Job() {
   return (
     <>
-      <Outlet />
+      <div className="bg">
+        <Outlet />
+      </div>
     </>
-  )
+  );
 }
 
 export default Job;
