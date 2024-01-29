@@ -1,0 +1,12 @@
+.job-detail {
+  margin-bottom: 40px;
+
+  &__name,
+  &__title {
+    color: #000;
+  }
+
+  &__content {
+    margin-top: 20px;
+  }
+}

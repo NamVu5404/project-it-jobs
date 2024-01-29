@@ -1,0 +1,12 @@
+.company-manage {
+  display:  flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 30px;
+
+  &__title {
+    color: #000;
+    margin: 10px 0;
+  }
+}

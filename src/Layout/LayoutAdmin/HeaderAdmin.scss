@@ -1,0 +1,35 @@
+.header-admin {
+  padding: 20px 0;
+
+  &__nav {
+    width: 300px;
+    display: flex;
+  }
+
+  &__logo {
+    width: 250px;
+    border-right: 1px solid #ddd;
+    text-align: center;
+    transition: all 0.2s;
+
+    &--sub {
+      width: 80px;
+    }
+  }
+
+  &__icon {
+    font-size: 22px;
+    color: #000;
+    margin-left: 25px;
+  }
+
+  &__button {
+    margin-right: 60px;
+  }
+}
+
+.content-admin {
+  background-color: var(--color-one);
+  padding: 50px;
+  min-height: 90vh;
+}
